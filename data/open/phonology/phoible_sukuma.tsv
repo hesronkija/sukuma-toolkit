@@ -1,0 +1,58 @@
+inventory_id	phoneme	allophones	marginal	segment_class	source
+1568	cʰ	cʰ	FALSE	consonant	ph
+1568	d	d	FALSE	consonant	ph
+1568	f	f	FALSE	consonant	ph
+1568	h	h	FALSE	consonant	ph
+1568	j	j	FALSE	consonant	ph
+1568	kʰ	kʰ	FALSE	consonant	ph
+1568	l	l	FALSE	consonant	ph
+1568	m	m	FALSE	consonant	ph
+1568	mb	mb	FALSE	consonant	ph
+1568	m̤pʰ	m̤pʰ	FALSE	consonant	ph
+1568	m̤ʱ	m̤ʱ	FALSE	consonant	ph
+1568	n	n	FALSE	consonant	ph
+1568	nd	nd	FALSE	consonant	ph
+1568	nz	nz	FALSE	consonant	ph
+1568	n̠ʃ	n̠ʃ	FALSE	consonant	ph
+1568	n̤s	n̤s	FALSE	consonant	ph
+1568	n̤tʰ	n̤tʰ	FALSE	consonant	ph
+1568	n̤ʱ	n̤ʱ	FALSE	consonant	ph
+1568	pʰ	pʰ	FALSE	consonant	ph
+1568	s	s	FALSE	consonant	ph
+1568	tʰ	tʰ	FALSE	consonant	ph
+1568	v	v	TRUE	consonant	ph
+1568	w	w	FALSE	consonant	ph
+1568	z	z	TRUE	consonant	ph
+1568	ŋ	ŋ	FALSE	consonant	ph
+1568	ŋɡ	ŋɡ	FALSE	consonant	ph
+1568	ŋ̤kʰ	ŋ̤kʰ	FALSE	consonant	ph
+1568	ŋ̤ʱ	ŋ̤ʱ	FALSE	consonant	ph
+1568	ɟ	ɟ	FALSE	consonant	ph
+1568	ɡ	ɡ ɣ	FALSE	consonant	ph
+1568	ɱv	ɱv	FALSE	consonant	ph
+1568	ɱ̤f	ɱ̤f	FALSE	consonant	ph
+1568	ɲ	ɲ	FALSE	consonant	ph
+1568	ɲɟ	ɲɟ	FALSE	consonant	ph
+1568	ɲ̤cʰ	ɲ̤cʰ	FALSE	consonant	ph
+1568	ɲ̤ʱ	ɲ̤ʱ	FALSE	consonant	ph
+1568	ʃ	ʃ	FALSE	consonant	ph
+1568	β	β b	FALSE	consonant	ph
+1568	˦	˦	FALSE	tone	ph
+1568	˦˨	˦˨	FALSE	tone	ph
+1568	˧	˧	FALSE	tone	ph
+1568	˨	˨	FALSE	tone	ph
+1568	˨˦	˨˦	FALSE	tone	ph
+1568	a	a	FALSE	vowel	ph
+1568	aː	aː	FALSE	vowel	ph
+1568	e	e ɪ	FALSE	vowel	ph
+1568	eː	eː ɪː	FALSE	vowel	ph
+1568	i	i	FALSE	vowel	ph
+1568	iː	iː	FALSE	vowel	ph
+1568	o	o ʊ	FALSE	vowel	ph
+1568	oː	oː ʊː	FALSE	vowel	ph
+1568	u	u	FALSE	vowel	ph
+1568	uː	uː	FALSE	vowel	ph
+1568	ɔ	ɔ	FALSE	vowel	ph
+1568	ɔː	ɔː	FALSE	vowel	ph
+1568	ɛ	ɛ	FALSE	vowel	ph
+1568	ɛː	ɛː	FALSE	vowel	ph

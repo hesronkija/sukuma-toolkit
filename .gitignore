@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Data: never commit corpus files (see data/README.md for licensing)
+data/*.csv
+data/*.parquet
+data/*.wav
+data/*.mp3
+data/*.flac
+*.csv
+*.parquet
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Downloaded corpora: local only (see data/README.md)
+data/raw/
+data/sukuma-voices/
+*.arrow

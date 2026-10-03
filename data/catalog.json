@@ -1,0 +1,403 @@
+{
+  "schema_version": 1,
+  "language": {
+    "name": "Sukuma",
+    "autonym": "Kisukuma",
+    "iso639_3": "suk",
+    "glottocode": "suku1261",
+    "guthrie": "F.21"
+  },
+  "verified_on": "2026-10-02",
+  "sources": [
+    {
+      "id": "sukuma-speech-corpus",
+      "name": "Sukuma Speech Corpus (read speech)",
+      "kind": "speech",
+      "description": "Read-speech ASR corpus with per-utterance speaker metadata (gender, age group, region, district, recording environment, estimated SNR). Largest Sukuma speech corpus found.",
+      "stats": {
+        "utterances": 21744,
+        "hours": 111.632,
+        "participant_records": 283,
+        "word_tokens": 422618,
+        "word_types": 5800,
+        "splits": {"train": "~17.7k", "validation": "~1.63k", "test": "~2.41k"},
+        "audio": "AAC, 32 kHz, mono"
+      },
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "joseph-telemala/sukuma-speech-corpus",
+        "text_patterns": ["README.md", "train/metadata.jsonl", "validation/metadata.jsonl", "test/metadata.jsonl"],
+        "audio_patterns": ["train/audio/*", "validation/audio/*", "test/audio/*"],
+        "text_bytes": 19035951,
+        "audio_bytes": null,
+        "extract_text": {"format": "jsonl", "column": "text", "glob": "*/metadata.jsonl"}
+      },
+      "homepage": "https://huggingface.co/datasets/joseph-telemala/sukuma-speech-corpus",
+      "citation": "joseph-telemala, Sukuma Speech Corpus, Hugging Face, 2026.",
+      "notes": "Last updated 2026-09-07. The card does not say where the prompt sentences come from; check before republishing transcripts. Audio size is not listed on the card; expect several GB."
+    },
+    {
+      "id": "sukuma-voices-acl",
+      "name": "Sukuma Voices (ACL release)",
+      "kind": "speech",
+      "description": "Transcribed Bible readings released with the LoResLM 2026 paper. Includes two synthetic (TTS) test sets for speech-quality evaluation. The paper's ASR baseline is reported on this release.",
+      "stats": {
+        "hours": 7.47,
+        "splits": {"train": 3260, "test": 362, "test_indistribution_synthesis": 362, "test_outdistribution_synthesis": 362}
+      },
+      "license": "Apache-2.0",
+      "license_url": "https://www.apache.org/licenses/LICENSE-2.0",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "sartifyllc/Sukuma-Voices-ACL",
+        "transcripts_in_audio": true,
+        "text_patterns": ["README.md"],
+        "audio_patterns": ["data/*.parquet"],
+        "text_bytes": 11768,
+        "audio_bytes": 233470863,
+        "extract_text": {"format": "parquet", "column": "text", "glob": "data/*.parquet"}
+      },
+      "homepage": "https://huggingface.co/datasets/sartifyllc/Sukuma-Voices-ACL",
+      "citation": "Mgonzo, M., Oketch, K., Etori, N. A., Mang'eni, W., Nyaki, E. F., & Mollel, M. S. (2026). Learning from Scarcity: Building and Benchmarking Speech Technology for Sukuma. LoResLM 2026, pp. 288-296. https://aclanthology.org/2026.loreslm-1.25/",
+      "notes": "Transcripts are inside the audio parquet files, so text needs --audio. The Hugging Face card says Apache-2.0; the project's GitHub repo uses CC BY 4.0. Baseline: Whisper Large v3 fine-tune, 25.19% final WER (sartify/sukuma-voices README)."
+    },
+    {
+      "id": "sukuma-voices",
+      "name": "Sukuma Voices (full release)",
+      "kind": "speech",
+      "description": "Larger Sukuma Voices release of Bible narrative readings, single train split.",
+      "stats": {
+        "hours": 19.56,
+        "samples": 6871,
+        "word_tokens": 140325,
+        "word_types": 21366
+      },
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "sartifyllc/Sukuma-Voices",
+        "transcripts_in_audio": true,
+        "text_patterns": ["README.md"],
+        "audio_patterns": ["data/*.parquet"],
+        "text_bytes": 7991,
+        "audio_bytes": 8061869579,
+        "extract_text": {"format": "parquet", "column": "text", "glob": "data/*.parquet"}
+      },
+      "homepage": "https://huggingface.co/datasets/sartifyllc/Sukuma-Voices",
+      "citation": "Sartify Company Limited, Sukuma Voices, 2025. https://github.com/sartify/sukuma-voices",
+      "notes": "About 8 GB of WAV-in-parquet. Stats are from the GitHub README; the Hugging Face viewer shows ~7.99k rows, so counts may differ by release."
+    },
+    {
+      "id": "africa-corpus-bible",
+      "name": "AfriSpeech africa-corpus: Sukuma Bible text",
+      "kind": "text",
+      "description": "Verse-keyed text of three Sukuma Bible translations harvested from YouVersion: Sukuma New Testament 2000 (id 1512, SNT00), Bibilia Ilagano Lya Kale 2015 (id 1517, SUKBI15) and Ilagano Ipya Lya (id 2684, SUK60). Main text corpus for this project.",
+      "stats": {
+        "sentences": 46989,
+        "versions": [1512, 1517, 2684]
+      },
+      "license": "Copyrighted (not public domain)",
+      "license_url": "https://huggingface.co/datasets/AfriSpeech/africa-corpus",
+      "redistributable": false,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "AfriSpeech/africa-corpus",
+        "text_patterns": ["Sukuma_suk_v1512.csv", "Sukuma_suk_v1517.csv", "Sukuma_suk_v2684.csv"],
+        "audio_patterns": [],
+        "text_bytes": 7930000,
+        "audio_bytes": 0,
+        "extract_text": {"format": "csv", "column": "local", "glob": "Sukuma_suk_v*.csv"}
+      },
+      "homepage": "https://github.com/afrispeech/africa-corpus-builder",
+      "citation": "AfriSpeech, africa-corpus-builder and the AfriSpeech/africa-corpus dataset.",
+      "notes": "The builder's own license table marks all three Sukuma versions as NOT public domain, so its default public-domain mode returns no Sukuma text. Use for local research only; never commit this text. Sentence count is from the builder README. scripts/download_afrispeech_text.py turns these files into data/sukuma_sentences.csv."
+    },
+    {
+      "id": "fineweb2-suk",
+      "name": "FineWeb-2 (suk_Latn)",
+      "kind": "text",
+      "description": "Common Crawl web text identified as Sukuma by language ID.",
+      "stats": {"train_bytes": 598759, "test_bytes": 16251},
+      "license": "ODC-By-1.0",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "HuggingFaceFW/fineweb-2",
+        "text_patterns": ["data/suk_Latn/*"],
+        "audio_patterns": [],
+        "text_bytes": 615010,
+        "audio_bytes": 0,
+        "extract_text": {"format": "parquet", "column": "text", "glob": "data/suk_Latn/*/*.parquet"}
+      },
+      "homepage": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2",
+      "citation": "Penedo, G. et al. FineWeb2: One Pipeline to Scale Them All. Hugging Face, 2024.",
+      "notes": "Small and unverified: language-ID filtered web text often mixes in Swahili or other languages. Audit before training. Also subject to Common Crawl terms of use."
+    },
+    {
+      "id": "finepdfs-suk",
+      "name": "FinePDFs (suk_Latn)",
+      "kind": "text",
+      "description": "Text extracted from PDFs on the web, identified as Sukuma by language ID.",
+      "stats": {"train_bytes": 6495689},
+      "license": "ODC-By-1.0",
+      "license_url": "https://opendatacommons.org/licenses/by/1-0/",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "HuggingFaceFW/finepdfs",
+        "text_patterns": ["data/suk_Latn/*"],
+        "audio_patterns": [],
+        "text_bytes": 6495689,
+        "audio_bytes": 0,
+        "extract_text": {"format": "parquet", "column": "text", "glob": "data/suk_Latn/*/*.parquet"}
+      },
+      "homepage": "https://huggingface.co/datasets/HuggingFaceFW/finepdfs",
+      "citation": "Hugging Face FineWeb team, FinePDFs, 2025.",
+      "notes": "Largest open Sukuma text source found besides the Bible. Same caveat as FineWeb-2: audit language ID quality and check for Bible duplicates."
+    },
+    {
+      "id": "glotcc-suk",
+      "name": "GlotCC-V1 (suk-Latn)",
+      "kind": "text",
+      "description": "Cleaned Common Crawl text for minority languages, Sukuma subset.",
+      "stats": {"bytes": 113100},
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "cis-lmu/GlotCC-V1",
+        "text_patterns": ["v1.0/suk-Latn/*"],
+        "audio_patterns": [],
+        "text_bytes": 113100,
+        "audio_bytes": 0,
+        "extract_text": {"format": "parquet", "column": "content", "glob": "v1.0/suk-Latn/*.parquet"}
+      },
+      "homepage": "https://huggingface.co/datasets/cis-lmu/GlotCC-V1",
+      "citation": "Kargaran, A. H. et al. GlotCC: An Open Broad-Coverage CommonCrawl Corpus and Pipeline for Minority Languages. NeurIPS 2024 Datasets and Benchmarks.",
+      "notes": "CC0 covers the packaging; underlying pages remain under Common Crawl terms. If the text column is not named 'content', fetch_data.py falls back to 'text'."
+    },
+    {
+      "id": "dcad2000-suk",
+      "name": "DCAD-2000 (suk_Latn)",
+      "kind": "text",
+      "description": "Re-cleaned FineWeb-2 Sukuma text, split into kept and removed documents by anomaly detection.",
+      "stats": {"keep_bytes": 1102033, "remove_bytes": 147951},
+      "license": "Other (see dataset LICENSE)",
+      "license_url": "https://huggingface.co/datasets/openbmb/DCAD-2000",
+      "redistributable": false,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "openbmb/DCAD-2000",
+        "text_patterns": ["suk_Latn/*"],
+        "audio_patterns": [],
+        "text_bytes": 1253529,
+        "audio_bytes": 0,
+        "extract_text": {"format": "jsonl", "column": "text", "glob": "suk_Latn/*_keep.jsonl"}
+      },
+      "homepage": "https://huggingface.co/datasets/openbmb/DCAD-2000",
+      "citation": "DCAD-2000: A Multilingual Dataset across 2000+ Languages with Data Cleaning as Anomaly Detection. NeurIPS 2025 Datasets and Benchmarks.",
+      "notes": "Derived from FineWeb-2, so it mostly overlaps fineweb2-suk. Useful as a second opinion on which documents are clean."
+    },
+    {
+      "id": "panlex-suk",
+      "name": "PanLex expressions (suk)",
+      "kind": "lexicon",
+      "description": "Sukuma expressions and their meanings from the PanLex 2024-03-01 database dump.",
+      "stats": {},
+      "license": "CC0-1.0",
+      "license_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "redistributable": true,
+      "in_repo": false,
+      "access": {
+        "type": "hf",
+        "repo_id": "gtak1/panlex-meanings",
+        "text_patterns": ["data/suk.tsv"],
+        "audio_patterns": [],
+        "text_bytes": null,
+        "audio_bytes": 0,
+        "extract_text": null
+      },
+      "homepage": "https://huggingface.co/datasets/gtak1/panlex-meanings",
+      "citation": "Kamholz, D., Pool, J., & Colowick, S. (2014). PanLex: Building a Resource for Panlingual Lexical Translation. LREC 2014.",
+      "notes": "CC0, so it can be committed to data/open once fetched and reviewed."
+    },
+    {
+      "id": "udhr-suk",
+      "name": "Universal Declaration of Human Rights (Sukuma, with Swahili and English)",
+      "kind": "text",
+      "description": "Full UDHR text in Sukuma (translation credited to UNDP Tanzania by OHCHR), plus the Swahili and English versions for article-level parallel use.",
+      "stats": {"suk_words": 1361, "files": 3},
+      "license": "Public domain",
+      "license_url": "https://www.ohchr.org/en/human-rights/universal-declaration/translations/sukuma",
+      "redistributable": true,
+      "in_repo": true,
+      "access": {
+        "type": "github",
+        "repo": "nltk/nltk_data",
+        "commit": "550b6625bcef1f2abff2ff770a5a0d272c9c6b2a",
+        "files": ["packages/corpora/udhr2.zip"]
+      },
+      "homepage": "https://www.ohchr.org/en/human-rights/universal-declaration/translations/sukuma",
+      "citation": "United Nations, Universal Declaration of Human Rights (Sukuma translation, UNDP Tanzania). Text via the Unicode UDHR project as packaged in NLTK data (udhr2).",
+      "notes": "Committed under data/open/udhr/. Only general-domain, non-religious Sukuma text found."
+    },
+    {
+      "id": "asjp-sukuma",
+      "name": "ASJP wordlist: Sukuma",
+      "kind": "lexicon",
+      "description": "Basic-vocabulary wordlist (up to 40 concepts) for Sukuma from the Automated Similarity Judgment Program.",
+      "stats": {"forms": 36},
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "in_repo": true,
+      "access": {
+        "type": "github",
+        "repo": "lexibank/asjp",
+        "commit": "cf4bf0d13c95256b1b48f440d07c5c098500a770",
+        "files": ["cldf/forms.csv", "cldf/parameters.csv"]
+      },
+      "homepage": "https://asjp.clld.org/",
+      "citation": "Wichmann, S., Holman, E. W., & Brown, C. H. (eds.). The ASJP Database. Lexibank CLDF edition (lexibank/asjp).",
+      "notes": "Committed under data/open/lexicon/. Forms are in ASJPcode, a simplified phonetic ASCII alphabet, not standard Sukuma spelling."
+    },
+    {
+      "id": "grollemund-bantu-sukuma",
+      "name": "Grollemund et al. Bantu wordlists: Sukuma and Ntuzu",
+      "kind": "lexicon",
+      "description": "100-concept basic-vocabulary wordlists for two Sukuma varieties (Sukuma, Ntuzu) with cognate-set IDs, from the Bantu phylogeny study.",
+      "stats": {"forms": 194, "varieties": ["f21sukuma", "f21ntuzu"]},
+      "license": "CC-BY-NC-4.0",
+      "license_url": "https://creativecommons.org/licenses/by-nc/4.0/",
+      "redistributable": true,
+      "in_repo": true,
+      "access": {
+        "type": "github",
+        "repo": "lexibank/grollemundbantu",
+        "commit": "0e19723b2d60ea6c30940ea5a2f3d1baee6d2114",
+        "files": ["cldf/forms.csv", "cldf/parameters.csv"]
+      },
+      "homepage": "https://github.com/lexibank/grollemundbantu",
+      "citation": "Grollemund, R., Branford, S., Bostoen, K., Meade, A., Venditti, C., & Pagel, M. (2015). Bantu expansion shows that habitat alters the route and pace of human dispersals. PNAS 112(43).",
+      "notes": "Committed under data/open/lexicon/. NonCommercial license: fine for this academic project, but anyone reusing it commercially must drop this file."
+    },
+    {
+      "id": "grambank-sukuma",
+      "name": "Grambank: Sukuma grammatical features",
+      "kind": "typology",
+      "description": "Coded values for Grambank's 195 grammatical features for Sukuma (0 = absent, 1 = present, ? = unknown, plus multi-value features).",
+      "stats": {"values": 195},
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "in_repo": true,
+      "access": {
+        "type": "github",
+        "repo": "grambank/grambank",
+        "commit": "37f73da55cf8b426c82383f46a972bc59ce6cf76",
+        "files": ["cldf/values.csv", "cldf/parameters.csv", "cldf/codes.csv"]
+      },
+      "homepage": "https://grambank.clld.org/languages/suku1261",
+      "citation": "Skirgård, H. et al. (2023). Grambank reveals the importance of genealogical constraints on linguistic diversity and highlights the impact of language loss. Science Advances 9(16).",
+      "notes": "Committed under data/open/typology/."
+    },
+    {
+      "id": "wals-sukuma",
+      "name": "WALS: Sukuma features",
+      "kind": "typology",
+      "description": "World Atlas of Language Structures feature values for Sukuma (WALS code skm).",
+      "stats": {"values": 17},
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "in_repo": true,
+      "access": {
+        "type": "github",
+        "repo": "cldf-datasets/wals",
+        "commit": "81298aa26d01fdc11b769bcc7fa87ad9e43d7ccd",
+        "files": ["cldf/values.csv", "cldf/parameters.csv", "cldf/codes.csv"]
+      },
+      "homepage": "https://wals.info/languoid/lect/wals_code_skm",
+      "citation": "Dryer, M. S. & Haspelmath, M. (eds.) (2013). The World Atlas of Language Structures Online. Zenodo. https://doi.org/10.5281/zenodo.7385533",
+      "notes": "Committed under data/open/typology/. WALS cites Batibo (1985) for Sukuma."
+    },
+    {
+      "id": "phoible-sukuma",
+      "name": "PHOIBLE: Sukuma phoneme inventory",
+      "kind": "phonology",
+      "description": "Phoneme inventory for Sukuma (PHOIBLE inventory 1568): vowels with length, prenasalized and breathy consonants, and tones.",
+      "stats": {"segments": 57, "inventory_id": 1568},
+      "license": "CC-BY-4.0",
+      "license_url": "https://creativecommons.org/licenses/by/4.0/",
+      "redistributable": true,
+      "in_repo": true,
+      "access": {
+        "type": "github",
+        "repo": "phoible/dev",
+        "commit": "5f82b9c3fbb0b5c630de20e254c5fdad645e3e56",
+        "files": ["data/phoible.csv"]
+      },
+      "homepage": "https://phoible.org/inventories/view/1568",
+      "citation": "Moran, S. & McCloy, D. (eds.) (2019). PHOIBLE 2.0. Jena: Max Planck Institute for the Science of Human History. https://phoible.org/",
+      "notes": "Committed under data/open/phonology/. Useful for the normalizer and diacritic restorer: shows which vowel-length and tone contrasts the writing system has to carry."
+    },
+    {
+      "id": "global-recordings-suk",
+      "name": "Global Recordings Network: Kisukuma",
+      "kind": "speech",
+      "description": "Evangelistic audio recordings and scripts in Kisukuma.",
+      "stats": {},
+      "license": "GRN terms of use (not open)",
+      "license_url": "https://globalrecordings.net/en/language/suk",
+      "redistributable": false,
+      "in_repo": false,
+      "access": {
+        "type": "manual",
+        "url": "https://globalrecordings.net/en/language/suk"
+      },
+      "homepage": "https://globalrecordings.net/en/language/suk",
+      "citation": "Global Recordings Network, Kisukuma language page.",
+      "notes": "Not downloaded automatically. Untranscribed, so mainly useful as extra listening or test material with permission."
+    }
+  ],
+  "models": [
+    {"id": "sartifyllc/sukuma-voices-asr", "task": "ASR", "notes": "Whisper Large v3 fine-tuned on Sukuma Voices; 25.19% final WER reported."},
+    {"id": "sartifyllc/sukuma-voices-tts", "task": "TTS", "notes": "Orpheus 3B fine-tune; MOS 3.9 vs 4.6 for human speech."},
+    {"id": "facebook/mms-tts-suk", "task": "TTS", "notes": "Meta MMS VITS voice for Sukuma; CC-BY-NC-4.0."},
+    {"id": "facebook/omniASR-LLM-7B", "task": "ASR", "notes": "Omnilingual ASR family lists Sukuma (suk_Latn) as supported; no published Sukuma scores yet."},
+    {"id": "nsomazr/whisper-small-sukuma", "task": "ASR", "notes": "Community Whisper-small fine-tune; training data and scores undocumented."},
+    {"id": "HMkumbo/whisper-small-sukuma", "task": "ASR", "notes": "Community Whisper-small fine-tune; training data and scores undocumented."}
+  ],
+  "checked_absent": [
+    {"name": "Mozilla Common Voice (scripted v27.0 and spontaneous v5.0, 2026-09-11)", "result": "No Sukuma locale."},
+    {"name": "Google WAXAL", "result": "21 African languages, Sukuma not included."},
+    {"name": "Omnilingual ASR Corpus (facebook/omnilingual-asr-corpus)", "result": "No suk_Latn folder, although the model supports Sukuma."},
+    {"name": "MADLAD-400", "result": "No Sukuma."},
+    {"name": "Glot500-c", "result": "No suk_Latn."},
+    {"name": "SIL Bloom (sil-ai/bloom-lm)", "result": "No Sukuma."},
+    {"name": "eBible corpus (BibleNLP/ebible)", "result": "No Sukuma translation."},
+    {"name": "Christodoulopoulos multilingual Bible corpus", "result": "No Sukuma."},
+    {"name": "Tatoeba Challenge", "result": "No Sukuma."},
+    {"name": "AfriSpeech african-corpus-jw", "result": "No Sukuma."},
+    {"name": "Leipzig CURL (suk_community_2017)", "result": "47 sentences, no download offered."},
+    {"name": "Lacuna Fund language datasets", "result": "No Sukuma or other Tanzanian-language dataset listed."},
+    {"name": "lexibank/bantubvd (Bantu Basic Vocabulary Database)", "result": "No Sukuma variety."},
+    {"name": "lexFollio/sukuma (Hugging Face)", "result": "English-named markdown notes, not Sukuma-language data."}
+  ]
+}

@@ -1,0 +1,106 @@
+{
+  "generated_by": "scripts/build_open_data.py",
+  "catalog": "data/catalog.json",
+  "pins": {
+    "udhr-suk": {
+      "repo": "nltk/nltk_data",
+      "commit": "550b6625bcef1f2abff2ff770a5a0d272c9c6b2a",
+      "license": "Public domain"
+    },
+    "asjp-sukuma": {
+      "repo": "lexibank/asjp",
+      "commit": "cf4bf0d13c95256b1b48f440d07c5c098500a770",
+      "license": "CC-BY-4.0"
+    },
+    "grollemund-bantu-sukuma": {
+      "repo": "lexibank/grollemundbantu",
+      "commit": "0e19723b2d60ea6c30940ea5a2f3d1baee6d2114",
+      "license": "CC-BY-NC-4.0"
+    },
+    "grambank-sukuma": {
+      "repo": "grambank/grambank",
+      "commit": "37f73da55cf8b426c82383f46a972bc59ce6cf76",
+      "license": "CC-BY-4.0"
+    },
+    "wals-sukuma": {
+      "repo": "cldf-datasets/wals",
+      "commit": "81298aa26d01fdc11b769bcc7fa87ad9e43d7ccd",
+      "license": "CC-BY-4.0"
+    },
+    "phoible-sukuma": {
+      "repo": "phoible/dev",
+      "commit": "5f82b9c3fbb0b5c630de20e254c5fdad645e3e56",
+      "license": "CC-BY-4.0"
+    }
+  },
+  "files": {
+    "lexicon/asjp_sukuma.bib": {
+      "source_id": "asjp-sukuma",
+      "sha256": "7ac2e52bed1d363b4bd903465df2f825a43a38292d1a24214ccdc851e72480ff",
+      "bytes": 144
+    },
+    "lexicon/asjp_sukuma.tsv": {
+      "source_id": "asjp-sukuma",
+      "sha256": "d15fc7bca9fd760936173fe9267a1e15bcf4f25e827e5ba52defbaaf401f4872",
+      "bytes": 1392,
+      "rows": 36
+    },
+    "lexicon/grollemund_sukuma.bib": {
+      "source_id": "grollemund-bantu-sukuma",
+      "sha256": "92160b08a5683c1935e2958bd210ecb664660cb476baa59796a37dd32fdf6ee1",
+      "bytes": 2777
+    },
+    "lexicon/grollemund_sukuma.tsv": {
+      "source_id": "grollemund-bantu-sukuma",
+      "sha256": "03560d75ec5f30b5645432721906a6e1c98e95e37e610c9bc08edc28a13dfc8b",
+      "bytes": 13713,
+      "rows": 194
+    },
+    "phonology/phoible_sukuma.tsv": {
+      "source_id": "phoible-sukuma",
+      "sha256": "2a25e318976eb0a3731e8c372c787795c78bda26c8c726ad857a6784d972ec4e",
+      "bytes": 1802,
+      "rows": 57
+    },
+    "typology/grambank_sukuma.bib": {
+      "source_id": "grambank-sukuma",
+      "sha256": "6fe54f8278b9f06392ece73836938d17765ceca98c781975f7c73d8e8aba8c42",
+      "bytes": 705
+    },
+    "typology/grambank_sukuma.tsv": {
+      "source_id": "grambank-sukuma",
+      "sha256": "c7192f26e11f703ecdc125d8d24d46c4e2eabd56ddd57fd16624506d7c74a898",
+      "bytes": 28672,
+      "rows": 195
+    },
+    "typology/wals_sukuma.bib": {
+      "source_id": "wals-sukuma",
+      "sha256": "c39cbbe9e4b89f68b9e336265cba741716ad5ee40c202ea691fce02fbb4ad853",
+      "bytes": 430
+    },
+    "typology/wals_sukuma.tsv": {
+      "source_id": "wals-sukuma",
+      "sha256": "6c39917ae3bdd9c81ac59841d504e3e0aac42174691a327526c4375cab2ec262",
+      "bytes": 1589,
+      "rows": 17
+    },
+    "udhr/eng.txt": {
+      "source_id": "udhr-suk",
+      "sha256": "1d9c19a4424e3af73419e2ce63c6abdd4d0f1137db9498d18351070c259c57b0",
+      "bytes": 12334,
+      "lines": 213
+    },
+    "udhr/suk.txt": {
+      "source_id": "udhr-suk",
+      "sha256": "29c98e3e1925a2162ce574561432228e89bd01560b759132ba5ad8b18be4c8f1",
+      "bytes": 9949,
+      "lines": 212
+    },
+    "udhr/swh.txt": {
+      "source_id": "udhr-suk",
+      "sha256": "b5053709232ce13edbceebcb10ad86973693a283e9f16f2bba40aaf6cc432429",
+      "bytes": 11399,
+      "lines": 215
+    }
+  }
+}
