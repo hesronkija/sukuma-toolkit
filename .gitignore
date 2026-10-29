@@ -23,3 +23,12 @@ data/*.flac
 data/raw/
 data/sukuma-voices/
 *.arrow
+
+# Trained models (from copyrighted Bible text): local only
+models/
+
+# Per-clip transcripts of the Sukuma Voices test set quote Bible text (copyrighted); keep them local
+reports/*sukuma-voices-acl*.tsv
+
+# Split assignments (utterance ids only, CC BY 4.0 metadata): commit these
+!data/splits/*.csv

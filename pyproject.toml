@@ -20,9 +20,23 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
 audio = ["librosa>=0.10", "soundfile>=0.12"]
+tokenizer = ["sentencepiece>=0.2"]
+eda = ["matplotlib>=3.7"]
+# omnilingual-asr pins NumPy 1.x; pyarrow 19+ needs NumPy 2. On a CPU-only Linux box, install torch and
+# torchaudio 2.8.0 from https://download.pytorch.org/whl/cpu first so their versions match.
+omnilingual = ["omnilingual-asr", "pyarrow<19", "soundfile>=0.12"]
+audit = ["fasttext-numpy2-wheel", "huggingface_hub>=0.20"]
+tokentax = ["transformers>=4.45,<5", "sentencepiece>=0.2", "matplotlib>=3.7"]
+whisper = ["transformers>=4.45,<5", "accelerate", "soundfile>=0.12", "scipy", "pyarrow", "huggingface_hub>=0.20"]
+
+[project.scripts]
+sukuma = "sukuma_toolkit.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools.package-data]
+sukuma_toolkit = ["data/*.json"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

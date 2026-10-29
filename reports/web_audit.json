@@ -1,0 +1,110 @@
+{
+  "method": "GlotLID v3 per sentence",
+  "bible_reference": true,
+  "sources": {
+    "fineweb2-suk": {
+      "documents": 408,
+      "words": 237390,
+      "word_share": {
+        "sukuma": 0.9350478116180125,
+        "swahili": 0.0026454357807826783,
+        "english": 0.0011710687055057078,
+        "other": 0.03175365432410801,
+        "unclear": 0.029382029571591053
+      },
+      "sentences": {
+        "sukuma": 13605,
+        "swahili": 56,
+        "english": 63,
+        "other": 894,
+        "unclear": 682
+      },
+      "documents_mostly": {
+        "sukuma": 397,
+        "swahili": 3,
+        "english": 0,
+        "other": 3,
+        "unclear": 5
+      },
+      "sukuma_words_from_bible": 0.8810655445981682
+    },
+    "dcad2000-suk": {
+      "documents": 252,
+      "words": 142608,
+      "word_share": {
+        "sukuma": 0.9335310782003815,
+        "swahili": 0.00034359923706944913,
+        "english": 0.0007923819140581174,
+        "other": 0.030524234264557387,
+        "unclear": 0.03480870638393358
+      },
+      "sentences": {
+        "sukuma": 8340,
+        "swahili": 10,
+        "english": 24,
+        "other": 491,
+        "unclear": 414
+      },
+      "documents_mostly": {
+        "sukuma": 247,
+        "swahili": 0,
+        "english": 0,
+        "other": 0,
+        "unclear": 5
+      },
+      "sukuma_words_from_bible": 0.8854644743068752
+    },
+    "finepdfs-suk": {
+      "documents": 70,
+      "words": 1678890,
+      "word_share": {
+        "sukuma": 0.6962904061612136,
+        "swahili": 0.0059610814288011725,
+        "english": 0.005952742585875192,
+        "other": 0.12347622536318639,
+        "unclear": 0.1683195444609236
+      },
+      "sentences": {
+        "sukuma": 69725,
+        "swahili": 1145,
+        "english": 672,
+        "other": 17232,
+        "unclear": 21084
+      },
+      "documents_mostly": {
+        "sukuma": 44,
+        "swahili": 1,
+        "english": 0,
+        "other": 7,
+        "unclear": 18
+      },
+      "sukuma_words_from_bible": 0.7003648433055745
+    },
+    "glotcc-suk": {
+      "documents": 35,
+      "words": 14532,
+      "word_share": {
+        "sukuma": 0.7033443435177539,
+        "swahili": 0.0026837324525185798,
+        "english": 0.04596751995595926,
+        "other": 0.14815579410955135,
+        "unclear": 0.0998486099642169
+      },
+      "sentences": {
+        "sukuma": 711,
+        "swahili": 6,
+        "english": 65,
+        "other": 239,
+        "unclear": 157
+      },
+      "documents_mostly": {
+        "sukuma": 32,
+        "swahili": 0,
+        "english": 0,
+        "other": 2,
+        "unclear": 1
+      },
+      "sukuma_words_from_bible": 0.10047940514626749
+    }
+  }
+}

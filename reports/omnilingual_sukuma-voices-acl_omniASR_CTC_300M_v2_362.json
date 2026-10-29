@@ -1,0 +1,19 @@
+{
+  "model": "omniASR_CTC_300M_v2",
+  "dataset": "sukuma-voices-acl",
+  "clips": 362,
+  "audio_hours": 1.0142847222222222,
+  "seconds": 1035.080156991,
+  "strict": {
+    "wer": 0.6922530206112296,
+    "cer": 0.16000813945601303
+  },
+  "normalized": {
+    "wer": 0.5243988187315427,
+    "cer": 0.10889907827632996
+  },
+  "diacritic_blind": {
+    "wer": 0.5076641822528477,
+    "cer": 0.10181069573761288
+  }
+}

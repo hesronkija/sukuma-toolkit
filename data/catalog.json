@@ -38,7 +38,7 @@
       },
       "homepage": "https://huggingface.co/datasets/joseph-telemala/sukuma-speech-corpus",
       "citation": "joseph-telemala, Sukuma Speech Corpus, Hugging Face, 2026.",
-      "notes": "Last updated 2026-09-07. The card does not say where the prompt sentences come from; check before republishing transcripts. Audio size is not listed on the card; expect several GB."
+      "notes": "Last updated 2026-09-07. The card does not say where the prompt sentences come from; check before republishing transcripts. Test audio is 4.2 GB. The official split keeps speakers apart but every test and validation sentence also appears in train (780 sentences in 10 prompt sets); scripts/make_disjoint_split.py writes a speaker- and sentence-disjoint split to data/splits/."
     },
     {
       "id": "sukuma-voices-acl",
@@ -143,7 +143,7 @@
       },
       "homepage": "https://huggingface.co/datasets/HuggingFaceFW/fineweb-2",
       "citation": "Penedo, G. et al. FineWeb2: One Pipeline to Scale Them All. Hugging Face, 2024.",
-      "notes": "Small and unverified: language-ID filtered web text often mixes in Swahili or other languages. Audit before training. Also subject to Common Crawl terms of use."
+      "notes": "Audited 2026-10-21 (scripts/audit_web_text.py, GlotLID per sentence): 94% of words are Sukuma, and about 88% of those Sukuma words are Bible text. Also subject to Common Crawl terms of use."
     },
     {
       "id": "finepdfs-suk",
@@ -166,7 +166,7 @@
       },
       "homepage": "https://huggingface.co/datasets/HuggingFaceFW/finepdfs",
       "citation": "Hugging Face FineWeb team, FinePDFs, 2025.",
-      "notes": "Largest open Sukuma text source found besides the Bible. Same caveat as FineWeb-2: audit language ID quality and check for Bible duplicates."
+      "notes": "Largest open Sukuma text source besides the Bible, but audited 2026-10-21 (scripts/audit_web_text.py, GlotLID per sentence): only 70% of words are confidently Sukuma; 17% unclear and 12% other languages, mostly Bible text in neighboring Bantu languages such as Nilamba. About 70% of the Sukuma words are Bible text. Filter by sentence before training."
     },
     {
       "id": "glotcc-suk",
@@ -380,7 +380,7 @@
     {"id": "sartifyllc/sukuma-voices-asr", "task": "ASR", "notes": "Whisper Large v3 fine-tuned on Sukuma Voices; 25.19% final WER reported."},
     {"id": "sartifyllc/sukuma-voices-tts", "task": "TTS", "notes": "Orpheus 3B fine-tune; MOS 3.9 vs 4.6 for human speech."},
     {"id": "facebook/mms-tts-suk", "task": "TTS", "notes": "Meta MMS VITS voice for Sukuma; CC-BY-NC-4.0."},
-    {"id": "facebook/omniASR-LLM-7B", "task": "ASR", "notes": "Omnilingual ASR family lists Sukuma (suk_Latn) as supported; no published Sukuma scores yet."},
+    {"id": "facebook/omniASR-LLM-7B", "task": "ASR", "notes": "Omnilingual ASR supports Sukuma (suk_Latn): Meta's per-language table reports 20.2 training hours and 2.0% CER (7B LLM model, Meta's own test data). No independent or WER results yet."},
     {"id": "nsomazr/whisper-small-sukuma", "task": "ASR", "notes": "Community Whisper-small fine-tune; training data and scores undocumented."},
     {"id": "HMkumbo/whisper-small-sukuma", "task": "ASR", "notes": "Community Whisper-small fine-tune; training data and scores undocumented."}
   ],

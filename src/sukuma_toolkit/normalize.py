@@ -72,11 +72,10 @@ def detect_diacritics(text: str) -> bool:
 
 
 def to_diacritic_form(text: str) -> str:
-    """Best-effort marker: Sukuma has no deterministic diacritic restorer.
+    """NFC-normalize and strip the text; it does NOT add diacritics.
 
-    This function only normalizes to NFC and returns the text unchanged
-    otherwise. True diacritic restoration needs a trained model; do not
-    claim this function does that.
+    Restoring diacritics needs a learned model: use
+    :class:`sukuma_toolkit.diacritics.DiacriticRestorer` (or ``sukuma restore``).
     """
     if not isinstance(text, str):
         raise TypeError(f"expected str, got {type(text).__name__}")

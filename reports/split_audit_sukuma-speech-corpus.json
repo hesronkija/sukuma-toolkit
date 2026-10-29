@@ -1,0 +1,108 @@
+{
+  "utterances": 21744,
+  "groups": 10,
+  "official": {
+    "sizes": {
+      "train": {
+        "utterances": 17702,
+        "hours": 92.12,
+        "speakers": 231,
+        "sentences": 780,
+        "female_share": 0.089,
+        "outdoor_share": 1.0
+      },
+      "validation": {
+        "utterances": 1632,
+        "hours": 7.25,
+        "speakers": 21,
+        "sentences": 699,
+        "female_share": 0.147,
+        "outdoor_share": 1.0
+      },
+      "test": {
+        "utterances": 2410,
+        "hours": 12.26,
+        "speakers": 31,
+        "sentences": 619,
+        "female_share": 0.066,
+        "outdoor_share": 1.0
+      }
+    },
+    "test_sentence_leak": {
+      "held_out": "test",
+      "items": 2410,
+      "unique_keys": 619,
+      "leaked_items": 2410,
+      "leaked_unique_keys": 619,
+      "leaked_share": 1.0
+    },
+    "test_speaker_leak": {
+      "held_out": "test",
+      "items": 2410,
+      "unique_keys": 31,
+      "leaked_items": 0,
+      "leaked_unique_keys": 0,
+      "leaked_share": 0.0
+    },
+    "validation_sentence_leak": {
+      "held_out": "validation",
+      "items": 1632,
+      "unique_keys": 699,
+      "leaked_items": 1632,
+      "leaked_unique_keys": 699,
+      "leaked_share": 1.0
+    }
+  },
+  "disjoint": {
+    "sizes": {
+      "train": {
+        "utterances": 17452,
+        "hours": 91.86,
+        "speakers": 226,
+        "sentences": 620,
+        "female_share": 0.095,
+        "outdoor_share": 1.0
+      },
+      "validation": {
+        "utterances": 2529,
+        "hours": 9.22,
+        "speakers": 33,
+        "sentences": 80,
+        "female_share": 0.095,
+        "outdoor_share": 1.0
+      },
+      "test": {
+        "utterances": 1763,
+        "hours": 10.56,
+        "speakers": 24,
+        "sentences": 80,
+        "female_share": 0.045,
+        "outdoor_share": 1.0
+      }
+    },
+    "test_sentence_leak": {
+      "held_out": "test",
+      "items": 1763,
+      "unique_keys": 80,
+      "leaked_items": 0,
+      "leaked_unique_keys": 0,
+      "leaked_share": 0.0
+    },
+    "test_speaker_leak": {
+      "held_out": "test",
+      "items": 1763,
+      "unique_keys": 24,
+      "leaked_items": 0,
+      "leaked_unique_keys": 0,
+      "leaked_share": 0.0
+    },
+    "validation_sentence_leak": {
+      "held_out": "validation",
+      "items": 2529,
+      "unique_keys": 80,
+      "leaked_items": 0,
+      "leaked_unique_keys": 0,
+      "leaked_share": 0.0
+    }
+  }
+}

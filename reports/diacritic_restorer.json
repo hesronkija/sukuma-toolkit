@@ -1,0 +1,47 @@
+{
+  "bible -> bible": {
+    "words": 81821,
+    "word_accuracy": 0.9879248603659208,
+    "baseline_accuracy": 0.5068625414013518,
+    "marked_words": 40349,
+    "marked_word_accuracy": 0.9835435822449131,
+    "unseen_words": 3366,
+    "unseen_word_accuracy": 0.8553178847296494
+  },
+  "bible -> corpus": {
+    "words": 2074,
+    "word_accuracy": 0.837029893924783,
+    "baseline_accuracy": 0.4373191899710704,
+    "marked_words": 1167,
+    "marked_word_accuracy": 0.7832047986289632,
+    "unseen_words": 1056,
+    "unseen_word_accuracy": 0.7253787878787878
+  },
+  "corpus -> corpus": {
+    "words": 2074,
+    "word_accuracy": 0.9156219864995179,
+    "baseline_accuracy": 0.4373191899710704,
+    "marked_words": 1167,
+    "marked_word_accuracy": 0.882604970008569,
+    "unseen_words": 595,
+    "unseen_word_accuracy": 0.7764705882352941
+  },
+  "both -> corpus": {
+    "words": 2074,
+    "word_accuracy": 0.8977820636451301,
+    "baseline_accuracy": 0.4373191899710704,
+    "marked_words": 1167,
+    "marked_word_accuracy": 0.8483290488431876,
+    "unseen_words": 483,
+    "unseen_word_accuracy": 0.7184265010351967
+  },
+  "both -> bible": {
+    "words": 81821,
+    "word_accuracy": 0.987973747570917,
+    "baseline_accuracy": 0.5068625414013518,
+    "marked_words": 40349,
+    "marked_word_accuracy": 0.9836427172916306,
+    "unseen_words": 3340,
+    "unseen_word_accuracy": 0.8559880239520958
+  }
+}

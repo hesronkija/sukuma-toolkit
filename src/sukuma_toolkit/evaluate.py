@@ -47,3 +47,44 @@ def corpus_wer(references: list[str], hypotheses: list[str]) -> float:
         total_edits += _edit_distance(ref_words, hyp.split())
         total_words += len(ref_words)
     return total_edits / total_words if total_words else 0.0
+
+
+def corpus_cer(references: list[str], hypotheses: list[str]) -> float:
+    """Micro-averaged CER over parallel lists of references/hypotheses."""
+    if len(references) != len(hypotheses):
+        raise ValueError("references and hypotheses must have equal length")
+    total_edits = sum(_edit_distance(list(r), list(h)) for r, h in zip(references, hypotheses))
+    total_chars = sum(len(r) for r in references)
+    return total_edits / total_chars if total_chars else 0.0
+
+
+def score_both_ways(references: list[str], hypotheses: list[str]) -> dict:
+    """Corpus WER/CER at three levels of leniency.
+
+    - ``strict``: exact text after Unicode/whitespace normalization.
+    - ``normalized``: lowercase, punctuation removed, diacritics KEPT.
+    - ``diacritic_blind``: as ``normalized``, with diacritics removed too.
+
+    ``normalized`` minus ``diacritic_blind`` is the error caused only by
+    diacritics (the two written forms of Sukuma).
+    """
+    import re
+
+    from sukuma_toolkit.normalize import normalize_text, strip_diacritics
+
+    def strict(t: str) -> str:
+        return normalize_text(t)
+
+    def normalized(t: str) -> str:
+        t = normalize_text(t).lower()
+        return " ".join(re.sub(r"[^\w\s']", " ", t).split())
+
+    def lenient(t: str) -> str:
+        return normalized(strip_diacritics(t))
+
+    out = {}
+    for name, fn in (("strict", strict), ("normalized", normalized), ("diacritic_blind", lenient)):
+        refs = [fn(r) for r in references]
+        hyps = [fn(h) for h in hypotheses]
+        out[name] = {"wer": corpus_wer(refs, hyps), "cer": corpus_cer(refs, hyps)}
+    return out

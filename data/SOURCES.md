@@ -15,7 +15,7 @@ form and drives `scripts/fetch_data.py` and `scripts/build_open_data.py`.
 
 | id | Hours | Utterances | License | Get it | Notes |
 | --- | --- | --- | --- | --- | --- |
-| `sukuma-speech-corpus` | 111.6 | 21,744 | CC BY 4.0 | fetch (19 MB text; audio size not listed, likely several GB) | Read speech, 283 participant records, speaker metadata (gender, age group, region, district, SNR). Largest by far. Published 2026-09 by [joseph-telemala](https://huggingface.co/datasets/joseph-telemala/sukuma-speech-corpus); prompt-text source not documented. |
+| `sukuma-speech-corpus` | 111.6 | 21,744 | CC BY 4.0 | fetch (19 MB text; audio size not listed, likely several GB) | Read speech, 283 participant records, speaker metadata (gender, age group, region, district, SNR). Largest by far. Published 2026-09 by [joseph-telemala](https://huggingface.co/datasets/joseph-telemala/sukuma-speech-corpus); prompt-text source not documented. Only 780 distinct sentences, and the official test split reuses all of its sentences from train; use `data/splits/sukuma-speech-corpus_disjoint.csv` to test on unseen sentences. |
 | `sukuma-voices-acl` | 7.47 | 3,260 train / 362 test (+2 synthetic test sets) | Apache-2.0 (Hub card) | fetch `--audio` (233 MB) | Bible readings. Release behind [Mgonzo et al., LoResLM 2026](https://aclanthology.org/2026.loreslm-1.25/). Baseline: Whisper Large v3, 25.19% WER. |
 | `sukuma-voices` | 19.56 | 6,871 | CC BY 4.0 | fetch `--audio` (8.1 GB) | Larger [Sukuma Voices](https://github.com/sartify/sukuma-voices) release, Bible narratives. |
 | `global-recordings-suk` | n/a | n/a | GRN terms (not open) | manual | [Global Recordings Network](https://globalrecordings.net/en/language/suk) audio, untranscribed. |
@@ -25,9 +25,9 @@ form and drives `scripts/fetch_data.py` and `scripts/build_open_data.py`.
 | id | Size | License | Get it | Notes |
 | --- | --- | --- | --- | --- |
 | `africa-corpus-bible` | 46,989 sentences, ~8 MB | **Copyrighted** | fetch, then `scripts/download_afrispeech_text.py` | Three Sukuma Bibles (version ids 1512, 1517, 2684) from [AfriSpeech/africa-corpus](https://huggingface.co/datasets/AfriSpeech/africa-corpus). None is public domain. Local research use only. |
-| `finepdfs-suk` | 6.5 MB | ODC-By 1.0 | fetch | [FinePDFs](https://huggingface.co/datasets/HuggingFaceFW/finepdfs) PDF text tagged Sukuma by language ID. Audit quality. |
+| `finepdfs-suk` | 6.5 MB | ODC-By 1.0 | fetch | [FinePDFs](https://huggingface.co/datasets/HuggingFaceFW/finepdfs) PDF text tagged Sukuma by language ID. Sentence-level audit: 70% of words Sukuma, the rest mostly neighboring Bantu languages (Nilamba Bible) and unclear text. See `reports/web_audit.md`. |
 | `dcad2000-suk` | 1.3 MB | Other (see dataset) | fetch | [DCAD-2000](https://huggingface.co/datasets/openbmb/DCAD-2000) re-cleaning of FineWeb-2; overlaps `fineweb2-suk`. |
-| `fineweb2-suk` | 0.6 MB | ODC-By 1.0 | fetch | [FineWeb-2](https://huggingface.co/datasets/HuggingFaceFW/fineweb-2) web text tagged Sukuma. Audit quality. |
+| `fineweb2-suk` | 0.6 MB | ODC-By 1.0 | fetch | [FineWeb-2](https://huggingface.co/datasets/HuggingFaceFW/fineweb-2) web text tagged Sukuma. 94% Sukuma by sentence, but about 88% of that is Bible text. |
 | `glotcc-suk` | 0.1 MB | CC0 1.0 | fetch | [GlotCC-V1](https://huggingface.co/datasets/cis-lmu/GlotCC-V1) minority-language web text. |
 | `udhr-suk` | 1,361 words | Public domain | In repo | UDHR in Sukuma ([OHCHR](https://www.ohchr.org/en/human-rights/universal-declaration/translations/sukuma), UNDP Tanzania), plus Swahili and English. The only general-domain, non-religious text found. |
 
@@ -49,7 +49,7 @@ form and drives `scripts/fetch_data.py` and `scripts/build_open_data.py`.
 | [sartifyllc/sukuma-voices-asr](https://huggingface.co/sartifyllc/sukuma-voices-asr) | ASR | Whisper Large v3 fine-tune, 25.19% WER on Sukuma Voices. |
 | [sartifyllc/sukuma-voices-tts](https://huggingface.co/sartifyllc/sukuma-voices-tts) | TTS | Orpheus 3B fine-tune, MOS 3.9 (human 4.6). |
 | [facebook/mms-tts-suk](https://huggingface.co/facebook/mms-tts-suk) | TTS | Meta MMS VITS voice, CC BY-NC 4.0. |
-| [Omnilingual ASR](https://arxiv.org/html/2511.09690v1) | ASR | Lists Sukuma (`suk_Latn`) as supported; no published Sukuma scores. |
+| [Omnilingual ASR](https://arxiv.org/html/2511.09690v1) | ASR | Supports Sukuma (`suk_Latn`). Meta's [per-language table](https://github.com/facebookresearch/omnilingual-asr/blob/main/per_language_results_table_7B_llm_asr.csv) reports 20.2 training hours and 2.0% CER on its own test data. Our zero-shot CTC 300M results: 52.4% WER / 10.9% CER on Sukuma Voices, 91.7% / 26.6% on 400 Speech Corpus clips (`reports/benchmark_summary.md`). |
 | [nsomazr/whisper-small-sukuma](https://huggingface.co/nsomazr/whisper-small-sukuma), [HMkumbo/whisper-small-sukuma](https://huggingface.co/HMkumbo/whisper-small-sukuma) | ASR | Community fine-tunes; data and scores undocumented. |
 
 ## Checked and not available

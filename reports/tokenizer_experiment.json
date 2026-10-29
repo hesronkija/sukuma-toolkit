@@ -1,0 +1,28 @@
+{
+  "split": {
+    "train_size": 38611,
+    "test_size": 4290,
+    "overlap": 0,
+    "leak_free": true
+  },
+  "vocab_size": 8000,
+  "model_type": "unigram",
+  "models": {
+    "as_written": {
+      "path": "models/sukuma_unigram_8000_as_written.model",
+      "sentences": 4290,
+      "words": 96415,
+      "pieces": 147666,
+      "pieces_per_word": 1.5315666649380284,
+      "vocab_size": 8000
+    },
+    "diacritics_removed": {
+      "path": "models/sukuma_unigram_8000_diacritics_removed.model",
+      "sentences": 4290,
+      "words": 96415,
+      "pieces": 144931,
+      "pieces_per_word": 1.503199709588757,
+      "vocab_size": 8000
+    }
+  }
+}
