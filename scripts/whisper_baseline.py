@@ -36,6 +36,9 @@ from omnilingual_smoke_test import DATASETS, LEVELS, load_corpus, load_voices  #
 from sukuma_toolkit.evaluate import score_levels  # noqa: E402
 
 DEFAULT_MODEL = "sartifyllc/sukuma-voices-asr"
+# The fine-tune's repo has only weights and configs, no tokenizer or feature-extractor files, so they come
+# from the base model it was trained from (Whisper Large v3: same 51,866-token vocabulary, 128 mel bins).
+DEFAULT_PROCESSOR = "openai/whisper-large-v3"
 TARGET_SR = 16_000
 
 
@@ -50,13 +53,15 @@ def resample(wav, sr: int, target: int = TARGET_SR):
     return resample_poly(wav, target // g, sr // g).astype("float32")
 
 
-def make_pipeline(model_id: str, device: str | None = None):
+def make_pipeline(model_id: str, device: str | None = None, processor_id: str = DEFAULT_PROCESSOR):
     import torch
-    from transformers import pipeline
+    from transformers import AutoProcessor, pipeline
 
     device = device or ("cuda" if torch.cuda.is_available() else "cpu")
     dtype = torch.float16 if device.startswith("cuda") else torch.float32
-    return pipeline("automatic-speech-recognition", model=model_id, torch_dtype=dtype, device=device)
+    processor = AutoProcessor.from_pretrained(processor_id)
+    return pipeline("automatic-speech-recognition", model=model_id, tokenizer=processor.tokenizer,
+                    feature_extractor=processor.feature_extractor, torch_dtype=dtype, device=device)
 
 
 def transcribe(pipe, clips: list[dict], batch_size: int = 8, language: str | None = None) -> list[str]:
@@ -109,7 +114,9 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--dataset", choices=sorted(DATASETS), default="sukuma-voices-acl")
     ap.add_argument("--model", default=DEFAULT_MODEL)
     ap.add_argument("--batch-size", type=int, default=8)
-    ap.add_argument("--language", help="force a Whisper language token, e.g. sw (default: model decides)")
+    ap.add_argument("--processor", default=DEFAULT_PROCESSOR, help="where the tokenizer and feature extractor come from")
+    ap.add_argument("--language", help="force a Whisper language token (default: the model's own, which for "
+                                       "the Sukuma Voices fine-tune is <|sk|>)")
     ap.add_argument("--device", help="cuda, cpu or mps (default: cuda if available)")
     ap.add_argument("--seed", type=int, default=42, help="sampling seed (sukuma-speech-corpus)")
     args = ap.parse_args(argv)
@@ -117,7 +124,7 @@ def main(argv: list[str] | None = None) -> int:
     print(f"Loading {args.n} clips from {args.dataset} ...")
     clips = load_voices(args.n) if args.dataset == "sukuma-voices-acl" else load_corpus(args.n, args.seed)
     print(f"Loading {args.model} (first run downloads 6.2 GB) ...")
-    pipe = make_pipeline(args.model, args.device)
+    pipe = make_pipeline(args.model, args.device, args.processor)
     t0 = time.perf_counter()
     hyps = transcribe(pipe, clips, args.batch_size, args.language)
     r = write_report(clips, hyps, args.model, args.dataset, time.perf_counter() - t0, ROOT / "reports")

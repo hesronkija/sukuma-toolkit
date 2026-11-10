@@ -32,9 +32,11 @@ data = ["datasets>=2.14", "huggingface_hub>=0.20", "pyarrow"]
 audio = ["datasets>=2.14", "librosa>=0.10", "soundfile>=0.12"]
 tokenizer = ["sentencepiece>=0.2"]
 eda = ["matplotlib>=3.7"]
-# omnilingual-asr pins NumPy 1.x; pyarrow 19+ needs NumPy 2. On a CPU-only Linux box, install torch and
-# torchaudio 2.8.0 from https://download.pytorch.org/whl/cpu first so their versions match.
-omnilingual = ["omnilingual-asr", "pyarrow<19", "soundfile>=0.12"]
+# omnilingual-asr needs Python 3.10-3.12 (no 3.13 wheels for fairseq2n) and torch 2.8.0 exactly. It also
+# pins NumPy 1.x, and pyarrow 22+ needs NumPy 2, so pyarrow stays at 20-21. torchaudio must match torch,
+# or it fails to load CUDA libraries. On a CPU-only Linux box, fairseq2 also needs its CPU variant.
+omnilingual = ["omnilingual-asr>=0.2", "torch==2.8.0", "torchaudio==2.8.0", "pyarrow>=20,<22",
+               "soundfile>=0.12", "scipy", "huggingface_hub>=0.20"]
 audit = ["fasttext-numpy2-wheel", "huggingface_hub>=0.20"]
 tokentax = ["transformers>=4.45,<5", "sentencepiece>=0.2", "matplotlib>=3.7"]
 whisper = ["transformers>=4.45,<5", "accelerate", "soundfile>=0.12", "scipy", "pyarrow", "huggingface_hub>=0.20"]
