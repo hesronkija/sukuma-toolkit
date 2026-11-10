@@ -1,4 +1,4 @@
-"""Tests for phase 4 tools: token tax, diacritic restorer, CLI."""
+"""Tests for the token tax script, the diacritic restorer and the CLI."""
 
 from __future__ import annotations
 

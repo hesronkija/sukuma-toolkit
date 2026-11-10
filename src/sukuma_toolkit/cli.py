@@ -31,7 +31,10 @@ def read_lines(source: str | None) -> list[str]:
     if path.suffix.lower() == ".tsv":
         csv.field_size_limit(sys.maxsize)
         with path.open(encoding="utf-8", newline="") as f:
-            return [r["text"] for r in csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE)]
+            reader = csv.DictReader(f, delimiter="\t", quoting=csv.QUOTE_NONE)
+            if "text" not in (reader.fieldnames or []):
+                raise SystemExit(f"sukuma: {source} has no 'text' column")
+            return [r["text"] for r in reader]
     if path.suffix.lower() == ".csv":
         from sukuma_toolkit.corpus import load_afrispeech_text
 
@@ -67,12 +70,12 @@ def cmd_stats(args) -> int:
 
 
 def cmd_score(args) -> int:
-    from sukuma_toolkit.evaluate import score_both_ways
+    from sukuma_toolkit.evaluate import score_levels
 
     refs, hyps = read_lines(args.references), read_lines(args.hypotheses)
     if len(refs) != len(hyps):
         raise SystemExit(f"sukuma: {len(refs)} references but {len(hyps)} hypotheses; need one per line, same order")
-    scores = score_both_ways(refs, hyps)
+    scores = score_levels(refs, hyps)
     labels = {"strict": "Strict (exact text)", "normalized": "Lowercase, no punctuation",
               "diacritic_blind": "Diacritics also ignored"}
     for key, label in labels.items():

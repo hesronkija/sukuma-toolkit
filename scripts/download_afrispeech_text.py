@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build data/sukuma_sentences.csv from the AfriSpeech Sukuma Bible text (Pillar A).
+"""Build data/sukuma_sentences.csv from the AfriSpeech Sukuma Bible text.
 
 Source: the AfriSpeech/africa-corpus dataset on the Hugging Face Hub, read
 through the africa-bitext-builder package (PyPI). Sukuma has three versions:

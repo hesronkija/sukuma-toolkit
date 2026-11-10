@@ -1,18 +1,32 @@
 # sukuma-toolkit
 
-To our knowledge, the first installable Python package for **Sukuma** (Kisukuma), a Bantu language
-spoken by ~10 million people in northern Tanzania: text normalization,
-diacritic restoration, corpus statistics, dataset splitting, speech/text
-evaluation, and a `sukuma` command-line tool.
+Python tools for **Sukuma** (Kisukuma), a Bantu language spoken by about
+10 million people in northern Tanzania: text normalization, diacritic
+restoration, corpus statistics, leak-free dataset splits, speech/text scoring,
+and a `sukuma` command-line tool. To our knowledge it is the first installable
+Python package for the language.
 
-Built as a Fall 2026 senior project (BYU-Idaho, DS 499) — and as the start of
-real tooling for one of Africa's most under-resourced languages.
+Fall 2026 senior project (BYU-Idaho, DS 499).
+
+## Findings so far
+
+| Question | Result | Report |
+| --- | --- | --- |
+| Is the Sukuma Speech Corpus test split clean? | No. All 619 test sentences also appear in train (speakers differ). This repo ships a split with no shared speakers or sentences. | [split audit](reports/split_audit_sukuma-speech-corpus.md) |
+| How well does zero-shot ASR work? | Omnilingual CTC 300M: 52.4% WER / 10.9% CER on Sukuma Voices (362 clips), 91.7% / 26.6% on 400 Speech Corpus clips. | [benchmarks](reports/benchmark_summary.md) |
+| Can diacritics be restored without a neural model? | 91.6% of words exactly right on held-out corpus sentences (43.7% if left plain); 98.8% on Bible text. | [restorer](reports/diacritic_restorer.md) |
+| What does Sukuma cost in LLM tokens? | 1.46x to 1.82x the tokens English needs for the same UDHR articles, across six tokenizers. | [token tax](reports/token_tax.md) |
+| Is web text tagged "Sukuma" usable? | FineWeb-2 is 94% Sukuma, but about 88% of that is Bible text. FinePDFs is 70% Sukuma. | [web audit](reports/web_audit.md) |
 
 ## Install
 
+Not on PyPI yet; install from a clone.
+
 ```bash
-pip install -e .            # base: text utilities
-pip install -e ".[audio]"   # + audio decoding for the speech corpus
+git clone https://github.com/hesronkija/sukuma-toolkit && cd sukuma-toolkit
+pip install -e .            # the package and CLI (no dependencies)
+pip install -e ".[data]"    # + what scripts/fetch_data.py needs
+pip install -e ".[audio]"   # + audio decoding for the speech corpora
 pip install -e ".[dev]"     # + pytest
 ```
 
@@ -20,17 +34,18 @@ pip install -e ".[dev]"     # + pytest
 
 ```python
 from sukuma_toolkit import normalize_text, strip_diacritics, detect_diacritics
-from sukuma_toolkit.corpus import load_afrispeech_text
-from sukuma_toolkit.split import train_test_split_sentences
-from sukuma_toolkit.evaluate import wer
+from sukuma_toolkit.diacritics import load_default
+from sukuma_toolkit.evaluate import wer, cer
 
-normalize_text("A ha wandījo wa kūseema,")   # NFC, punctuation, whitespace
-strip_diacritics("wandījo")                  # -> "wandijo"
-detect_diacritics("wandījo")                 # -> True
+normalize_text("A  ha wandījo wa “kūseema” ")    # 'A ha wandījo wa "kūseema"'
+strip_diacritics("wandījo")                      # 'wandijo'
+detect_diacritics("wandijo")                     # False
 
-sents = load_afrispeech_text("data/sukuma_sentences.csv")
-train, test = train_test_split_sentences(sents, test_size=0.1, seed=42)
-wer("wandijo wa kuseema", "wandijo wa kuseema")  # -> 0.0
+load_default().restore("wandijo wa kuseema")     # 'wandījo wa kūseema'
+
+# A transcript that drops the diacritics gets 2 of 3 words wrong:
+wer("wandījo wa kūseema", "wandijo wa kuseema")  # 0.67
+cer("wandījo wa kūseema", "wandijo wa kuseema")  # 0.11
 ```
 
 ## Command line
@@ -38,7 +53,7 @@ wer("wandijo wa kuseema", "wandijo wa kuseema")  # -> 0.0
 ```bash
 sukuma normalize notes.txt                    # clean Unicode, quotes and spacing
 sukuma normalize --strip-diacritics notes.txt # wandījo -> wandijo
-echo "U Yesu ubawila" | sukuma restore        # wandijo -> wandījo (diacritic restorer v1)
+echo "wandijo wa kuseema" | sukuma restore    # -> wandījo wa kūseema
 sukuma stats sentences.csv                    # corpus report in Markdown
 sukuma score refs.txt hyps.txt                # WER / CER: strict, normalized, diacritic-blind
 ```
@@ -46,8 +61,10 @@ sukuma score refs.txt hyps.txt                # WER / CER: strict, normalized, d
 The shipped restorer is trained on the Sukuma Speech Corpus prompts
 (joseph-telemala, CC BY 4.0) and follows that corpus's spelling. For
 Bible-style text, train one with `scripts/train_restorer.py` and pass
-`--model models/sukuma_restorer_bible.json`. Accuracy is in
-`reports/diacritic_restorer.md`.
+`--model models/sukuma_restorer_bible.json`.
+
+`sukuma score` reports all three levels because Sukuma has two written forms:
+the gap between the last two lines is the error caused by diacritics alone.
 
 ## Data
 

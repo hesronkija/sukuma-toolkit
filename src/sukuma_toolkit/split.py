@@ -95,7 +95,7 @@ def disjoint_split(
     approximate when components are large; check them with ``validate_split``.
     """
     sizes = sizes or {"test": 0.1}
-    if "train" in sizes or not sizes or sum(sizes.values()) >= 1.0 or min(sizes.values()) <= 0:
+    if "train" in sizes or sum(sizes.values()) >= 1.0 or min(sizes.values()) <= 0:
         raise ValueError("sizes: held-out fractions > 0 summing below 1, without 'train'")
     comp = linked_groups(keys)
     counts: dict[int, int] = {}

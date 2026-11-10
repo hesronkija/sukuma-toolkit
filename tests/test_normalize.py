@@ -2,7 +2,6 @@
 
 from sukuma_toolkit.normalize import (
     detect_diacritics,
-    is_empty_after_normalization,
     normalize_text,
     strip_diacritics,
 )
@@ -33,8 +32,3 @@ def test_strip_diacritics():
 def test_detect_diacritics():
     assert detect_diacritics("A ha wandījo wa kūseema") is True
     assert detect_diacritics("plain ascii words") is False
-
-
-def test_is_empty_after_normalization():
-    assert is_empty_after_normalization("   ") is True
-    assert is_empty_after_normalization("wandijo") is False

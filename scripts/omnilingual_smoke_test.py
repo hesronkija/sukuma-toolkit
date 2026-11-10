@@ -35,7 +35,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 
-from sukuma_toolkit.evaluate import score_both_ways  # noqa: E402
+from sukuma_toolkit.evaluate import score_levels  # noqa: E402
 
 MAX_SECONDS = 40.0
 TARGET_SR = 16_000  # the models' rate; resampling on load halves memory for 32 kHz audio
@@ -137,7 +137,7 @@ def run(clips: list[dict], pipeline, model_card: str, out_dir: Path, batch_size:
         hyps += list(pipeline.transcribe(inputs, lang=lang, batch_size=batch_size))
     seconds = time.perf_counter() - t0
     refs = [c["text"] for c in clips]
-    scores = score_both_ways(refs, hyps)
+    scores = score_levels(refs, hyps)
     audio_hours = sum(len(c["waveform"]) / c["sample_rate"] for c in clips) / 3600
 
     out_dir.mkdir(parents=True, exist_ok=True)

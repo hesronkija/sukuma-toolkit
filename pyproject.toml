@@ -4,22 +4,32 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "sukuma-toolkit"
-version = "0.1.0"
 description = "Text and speech utilities for the Sukuma language (Bantu, northern Tanzania)"
 readme = "README.md"
+dynamic = ["version"]
 requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "Hesron Kija" }]
 keywords = ["sukuma", "nlp", "asr", "bantu", "low-resource"]
-dependencies = [
-    "datasets>=2.14",
-    "pandas>=2.0",
-    "numpy>=1.24",
+# The package itself (normalize, restore, stats, score, the CLI) is standard library only.
+dependencies = []
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Text Processing :: Linguistic",
 ]
+
+[project.urls]
+Repository = "https://github.com/hesronkija/sukuma-toolkit"
+Issues = "https://github.com/hesronkija/sukuma-toolkit/issues"
 
 [project.optional-dependencies]
 dev = ["pytest>=7.0"]
-audio = ["librosa>=0.10", "soundfile>=0.12"]
+# data: what scripts/fetch_data.py and the Hub loaders need
+data = ["datasets>=2.14", "huggingface_hub>=0.20", "pyarrow"]
+audio = ["datasets>=2.14", "librosa>=0.10", "soundfile>=0.12"]
 tokenizer = ["sentencepiece>=0.2"]
 eda = ["matplotlib>=3.7"]
 # omnilingual-asr pins NumPy 1.x; pyarrow 19+ needs NumPy 2. On a CPU-only Linux box, install torch and
@@ -31,6 +41,9 @@ whisper = ["transformers>=4.45,<5", "accelerate", "soundfile>=0.12", "scipy", "p
 
 [project.scripts]
 sukuma = "sukuma_toolkit.cli:main"
+
+[tool.setuptools.dynamic]
+version = { attr = "sukuma_toolkit.__version__" }
 
 [tool.setuptools.packages.find]
 where = ["src"]

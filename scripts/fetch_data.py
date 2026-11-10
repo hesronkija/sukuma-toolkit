@@ -16,7 +16,7 @@ For each downloaded source the script also writes:
     data/raw/<id>/text.tsv     one row per text item: file, row, text
     data/raw/<id>/SOURCE.json  license, citation and access details
 
-Requires huggingface_hub and pyarrow (both come with `pip install -e .`).
+Requires huggingface_hub and pyarrow (`pip install -e ".[data]"`).
 """
 
 from __future__ import annotations

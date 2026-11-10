@@ -33,7 +33,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 from omnilingual_smoke_test import DATASETS, LEVELS, load_corpus, load_voices  # noqa: E402
 
-from sukuma_toolkit.evaluate import score_both_ways  # noqa: E402
+from sukuma_toolkit.evaluate import score_levels  # noqa: E402
 
 DEFAULT_MODEL = "sartifyllc/sukuma-voices-asr"
 TARGET_SR = 16_000
@@ -71,7 +71,7 @@ def transcribe(pipe, clips: list[dict], batch_size: int = 8, language: str | Non
 def write_report(clips: list[dict], hyps: list[str], model_id: str, dataset: str, seconds: float,
                  out_dir: Path) -> dict:
     refs = [c["text"] for c in clips]
-    scores = score_both_ways(refs, hyps)
+    scores = score_levels(refs, hyps)
     audio_hours = sum(len(c["waveform"]) / c["sample_rate"] for c in clips) / 3600
     slug = model_id.replace("/", "_")
     stem = f"whisper_{dataset}_{slug}_{len(clips)}"

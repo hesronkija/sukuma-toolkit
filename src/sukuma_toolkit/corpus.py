@@ -1,10 +1,10 @@
-"""Corpus loaders for the verified Sukuma data sources.
+"""Corpus loaders for the two main Sukuma data sources.
 
-Pillar A (text): AfriSpeech africa-corpus-builder output. The builder writes
+Text: AfriSpeech africa-corpus-builder output. The builder writes
 one sentence per row; this loader accepts the CSV this project uses
 (header ``suk``) as well as plain one-sentence-per-line text files.
 
-Pillar B (speech): Sukuma Voices (sartifyllc/Sukuma-Voices-ACL on the
+Speech: Sukuma Voices (sartifyllc/Sukuma-Voices-ACL on the
 HuggingFace Hub). Loaded lazily through the ``datasets`` library so the
 heavy dependency is only needed when audio is actually used.
 

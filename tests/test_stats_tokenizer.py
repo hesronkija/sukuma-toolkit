@@ -1,4 +1,4 @@
-"""Tests for corpus statistics, two-way scoring, the EDA and tokenizer scripts,
+"""Tests for corpus statistics, three-level scoring, the EDA and tokenizer scripts,
 and the Omnilingual smoke test (with a fake pipeline; no network)."""
 
 from __future__ import annotations
@@ -10,7 +10,7 @@ from pathlib import Path
 
 import pytest
 
-from sukuma_toolkit.evaluate import corpus_cer, score_both_ways
+from sukuma_toolkit.evaluate import corpus_cer, score_levels
 from sukuma_toolkit.stats import corpus_stats, format_report, words
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -67,10 +67,10 @@ def test_format_report_has_no_full_sentences():
     assert "Nguno ng'wana wakwe" not in md
 
 
-def test_score_both_ways_separates_diacritic_errors():
+def test_score_levels_separates_diacritic_errors():
     refs = ["Ū Yesu ūbawīla gīkī"]
     hyps = ["u yesu ubawila giki"]
-    s = score_both_ways(refs, hyps)
+    s = score_levels(refs, hyps)
     assert s["strict"]["wer"] == 1.0
     assert s["diacritic_blind"]["wer"] == 0.0 and s["diacritic_blind"]["cer"] == 0.0
 
@@ -153,5 +153,5 @@ def test_corpus_sample_is_seeded_and_skips_long_clips(tmp_path):
 
 
 def test_score_levels_isolate_diacritics():
-    s = score_both_ways(["Ū Yesu, ūbawīla."], ["ū yesu ubawila"])
+    s = score_levels(["Ū Yesu, ūbawīla."], ["ū yesu ubawila"])
     assert s["strict"]["wer"] > s["normalized"]["wer"] > s["diacritic_blind"]["wer"] == 0.0

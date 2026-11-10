@@ -27,10 +27,6 @@ _PUNCT_MAP = str.maketrans(
 
 _WHITESPACE_RE = re.compile(r"\s+")
 
-# Digits sometimes appear as words or numerals; keep numerals, drop nothing.
-# (Sukuma Bible text uses Arabic numerals; leave them untouched.)
-
-
 def normalize_text(text: str) -> str:
     """Normalize a Sukuma sentence to a canonical surface form.
 
@@ -62,26 +58,7 @@ def strip_diacritics(text: str) -> str:
 
 
 def detect_diacritics(text: str) -> bool:
-    """Return True if the text contains any diacritic marks.
-
-    Compares the text against its diacritic-stripped form.
-    """
+    """Return True if the text contains any diacritic marks."""
     if not isinstance(text, str):
         raise TypeError(f"expected str, got {type(text).__name__}")
-    return normalize_text(text) != normalize_text(strip_diacritics(text))
-
-
-def to_diacritic_form(text: str) -> str:
-    """NFC-normalize and strip the text; it does NOT add diacritics.
-
-    Restoring diacritics needs a learned model: use
-    :class:`sukuma_toolkit.diacritics.DiacriticRestorer` (or ``sukuma restore``).
-    """
-    if not isinstance(text, str):
-        raise TypeError(f"expected str, got {type(text).__name__}")
-    return unicodedata.normalize("NFC", text.strip())
-
-
-def is_empty_after_normalization(text: str) -> bool:
-    """True if normalization leaves nothing (blank / punctuation-only input)."""
-    return normalize_text(text) == ""
+    return unicodedata.normalize("NFC", text) != strip_diacritics(text)

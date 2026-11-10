@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Download the Sukuma Voices speech corpus (Pillar B).
+"""Download the Sukuma Voices speech corpus.
 
 Dataset: sartifyllc/Sukuma-Voices-ACL on the HuggingFace Hub (7.47h of
 transcribed Sukuma Bible readings; the Hub card says Apache-2.0, the project's

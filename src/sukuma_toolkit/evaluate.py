@@ -2,6 +2,10 @@
 
 from __future__ import annotations
 
+import re
+
+from sukuma_toolkit.normalize import normalize_text, strip_diacritics
+
 
 def _edit_distance(ref: list[str], hyp: list[str]) -> int:
     """Levenshtein distance between two token sequences (dynamic programming)."""
@@ -58,7 +62,7 @@ def corpus_cer(references: list[str], hypotheses: list[str]) -> float:
     return total_edits / total_chars if total_chars else 0.0
 
 
-def score_both_ways(references: list[str], hypotheses: list[str]) -> dict:
+def score_levels(references: list[str], hypotheses: list[str]) -> dict:
     """Corpus WER/CER at three levels of leniency.
 
     - ``strict``: exact text after Unicode/whitespace normalization.
@@ -68,10 +72,6 @@ def score_both_ways(references: list[str], hypotheses: list[str]) -> dict:
     ``normalized`` minus ``diacritic_blind`` is the error caused only by
     diacritics (the two written forms of Sukuma).
     """
-    import re
-
-    from sukuma_toolkit.normalize import normalize_text, strip_diacritics
-
     def strict(t: str) -> str:
         return normalize_text(t)
 
