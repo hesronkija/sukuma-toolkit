@@ -64,13 +64,47 @@ def make_pipeline(model_id: str, device: str | None = None, processor_id: str = 
                     feature_extractor=processor.feature_extractor, torch_dtype=dtype, device=device)
 
 
+CHUNK = 32  # clips per pipeline call, so an out-of-memory error only repeats one chunk
+
+
 def transcribe(pipe, clips: list[dict], batch_size: int = 8, language: str | None = None) -> list[str]:
-    inputs = [{"raw": resample(c["waveform"], c["sample_rate"]), "sampling_rate": TARGET_SR} for c in clips]
+    """Transcribe all clips, halving the batch size whenever the GPU runs out of memory.
+
+    Whisper's beam search keeps several hypotheses per clip, so a batch that fits on a
+    40 GB A100 can overflow a 24 GB L4. Each chunk is retried at half the batch size, down to 1.
+    """
     kwargs = {"task": "transcribe", "max_new_tokens": 200}  # cap hallucination loops on hard clips
     if language:
         kwargs["language"] = language
-    out = pipe(inputs, batch_size=batch_size, generate_kwargs=kwargs)
-    return [o["text"].strip() for o in out]
+    hyps: list[str] = []
+    for start in range(0, len(clips), CHUNK):
+        inputs = [{"raw": resample(c["waveform"], c["sample_rate"]), "sampling_rate": TARGET_SR}
+                  for c in clips[start:start + CHUNK]]
+        while True:
+            try:
+                out = pipe(inputs, batch_size=batch_size, generate_kwargs=kwargs)
+                break
+            except Exception as e:  # torch.OutOfMemoryError, without importing torch here
+                if "out of memory" not in str(e).lower() or batch_size == 1:
+                    raise
+                _free_gpu_memory()
+                batch_size = max(1, batch_size // 2)
+                print(f"GPU out of memory; retrying with batch size {batch_size}", flush=True)
+        hyps += [o["text"].strip() for o in out]
+        print(f"  {len(hyps)}/{len(clips)} clips", flush=True)
+    return hyps
+
+
+def _free_gpu_memory() -> None:
+    import gc
+
+    gc.collect()
+    try:
+        import torch
+
+        torch.cuda.empty_cache()
+    except Exception:
+        pass
 
 
 def write_report(clips: list[dict], hyps: list[str], model_id: str, dataset: str, seconds: float,

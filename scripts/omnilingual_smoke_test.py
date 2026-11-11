@@ -134,7 +134,22 @@ def run(clips: list[dict], pipeline, model_card: str, out_dir: Path, batch_size:
         part = clips[start:start + CHUNK]
         inputs = [{"waveform": c["waveform"], "sample_rate": c["sample_rate"]} for c in part]
         lang = None if "CTC" in model_card else ["suk_Latn"] * len(inputs)  # CTC ignores language codes
-        hyps += list(pipeline.transcribe(inputs, lang=lang, batch_size=batch_size))
+        while True:
+            try:
+                hyps += list(pipeline.transcribe(inputs, lang=lang, batch_size=batch_size))
+                break
+            except Exception as e:  # torch.OutOfMemoryError on a smaller GPU
+                if "out of memory" not in str(e).lower() or batch_size == 1:
+                    raise
+                import gc
+
+                import torch
+
+                gc.collect()
+                torch.cuda.empty_cache()
+                batch_size = max(1, batch_size // 2)
+                print(f"GPU out of memory; retrying with batch size {batch_size}", flush=True)
+        print(f"  {len(hyps)}/{len(clips)} clips", flush=True)
     seconds = time.perf_counter() - t0
     refs = [c["text"] for c in clips]
     scores = score_levels(refs, hyps)
