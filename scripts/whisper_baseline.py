@@ -65,34 +65,44 @@ def make_pipeline(model_id: str, device: str | None = None, processor_id: str = 
 
 
 CHUNK = 32  # clips per pipeline call, so an out-of-memory error only repeats one chunk
+WINDOW_SECONDS = 30.0  # Whisper's input window; longer clips take a different (long-form) code path
 
 
 def transcribe(pipe, clips: list[dict], batch_size: int = 8, language: str | None = None) -> list[str]:
-    """Transcribe all clips, halving the batch size whenever the GPU runs out of memory.
+    """Transcribe all clips, in their original order.
 
-    Whisper's beam search keeps several hypotheses per clip, so a batch that fits on a
-    40 GB A100 can overflow a 24 GB L4. Each chunk is retried at half the batch size, down to 1.
+    Clips up to 30 s are batched. Longer clips (the Sukuma Speech Corpus has some up to 40 s)
+    go through Whisper's long-form path, whose inputs carry an extra field and cannot share a
+    batch with short clips, so they run one at a time. Whenever the GPU runs out of memory,
+    the batch size is halved and the chunk retried, down to 1: Whisper's beam search keeps
+    several hypotheses per clip, so a batch that fits a 40 GB A100 can overflow a 24 GB L4.
     """
     kwargs = {"task": "transcribe", "max_new_tokens": 200}  # cap hallucination loops on hard clips
     if language:
         kwargs["language"] = language
-    hyps: list[str] = []
-    for start in range(0, len(clips), CHUNK):
-        inputs = [{"raw": resample(c["waveform"], c["sample_rate"]), "sampling_rate": TARGET_SR}
-                  for c in clips[start:start + CHUNK]]
-        while True:
-            try:
-                out = pipe(inputs, batch_size=batch_size, generate_kwargs=kwargs)
-                break
-            except Exception as e:  # torch.OutOfMemoryError, without importing torch here
-                if "out of memory" not in str(e).lower() or batch_size == 1:
-                    raise
-                _free_gpu_memory()
-                batch_size = max(1, batch_size // 2)
-                print(f"GPU out of memory; retrying with batch size {batch_size}", flush=True)
-        hyps += [o["text"].strip() for o in out]
-        print(f"  {len(hyps)}/{len(clips)} clips", flush=True)
-    return hyps
+    short = [i for i, c in enumerate(clips) if len(c["waveform"]) / c["sample_rate"] <= WINDOW_SECONDS]
+    long_ = [i for i in range(len(clips)) if i not in set(short)]
+    hyps: dict[int, str] = {}
+    for group, bs in ((short, batch_size), (long_, 1)):
+        for start in range(0, len(group), CHUNK):
+            idx = group[start:start + CHUNK]
+            inputs = [{"raw": resample(clips[i]["waveform"], clips[i]["sample_rate"]), "sampling_rate": TARGET_SR}
+                      for i in idx]
+            while True:
+                try:
+                    out = pipe(inputs, batch_size=bs, generate_kwargs=kwargs)
+                    break
+                except Exception as e:  # torch.OutOfMemoryError, without importing torch here
+                    if "out of memory" not in str(e).lower() or bs == 1:
+                        raise
+                    _free_gpu_memory()
+                    bs = max(1, bs // 2)
+                    print(f"GPU out of memory; retrying with batch size {bs}", flush=True)
+            hyps.update({i: o["text"].strip() for i, o in zip(idx, out)})
+            print(f"  {len(hyps)}/{len(clips)} clips", flush=True)
+        if group is short:
+            batch_size = bs  # keep a reduced size for later chunks
+    return [hyps[i] for i in range(len(clips))]
 
 
 def _free_gpu_memory() -> None:

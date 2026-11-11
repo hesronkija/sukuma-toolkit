@@ -20,29 +20,43 @@ def _load(name: str):
     return module
 
 
-def _clips(n: int) -> list[dict]:
-    return [{"id": str(i), "waveform": np.zeros(1600, dtype="float32"), "sample_rate": 16000, "text": "a"}
-            for i in range(n)]
+def _clips(n: int, seconds: float = 0.1) -> list[dict]:
+    return [{"id": str(i), "waveform": np.zeros(int(16000 * seconds), dtype="float32"), "sample_rate": 16000,
+             "text": "a"} for i in range(n)]
 
 
 class FakeWhisper:
-    def __init__(self, fits: int):
+    """Echoes each clip's length; fails like the real pipeline on OOM or on mixed short/long batches."""
+
+    def __init__(self, fits: int = 99):
         self.fits, self.calls = fits, []
 
     def __call__(self, inputs, batch_size, generate_kwargs):
         self.calls.append(batch_size)
         if batch_size > self.fits:
             raise RuntimeError("CUDA out of memory. Tried to allocate 294.00 MiB")
-        return [{"text": f" hyp{i} "} for i in range(len(inputs))]
+        lengths = [len(x["raw"]) / x["sampling_rate"] for x in inputs]
+        if batch_size > 1 and any(n > 30 for n in lengths):
+            raise ValueError("The elements of the batch contain different keys. Cannot batch them")
+        return [{"text": f" {n:.0f}s "} for n in lengths]
 
 
 def test_whisper_halves_batch_on_oom(capsys):
     mod = _load("whisper_baseline")
     pipe = FakeWhisper(fits=2)
     hyps = mod.transcribe(pipe, _clips(40), batch_size=8)
-    assert len(hyps) == 40 and hyps[0] == "hyp0"
+    assert len(hyps) == 40 and hyps[0] == "0s"
     assert pipe.calls[:3] == [8, 4, 2] and set(pipe.calls[3:]) == {2}  # later chunks keep the smaller size
     assert "retrying with batch size 2" in capsys.readouterr().out
+
+
+def test_whisper_runs_long_clips_alone_and_keeps_order():
+    mod = _load("whisper_baseline")
+    clips = _clips(3, 10) + _clips(1, 35) + _clips(2, 12) + _clips(1, 38)
+    pipe = FakeWhisper()
+    hyps = mod.transcribe(pipe, clips, batch_size=4)
+    assert hyps == ["10s", "10s", "10s", "35s", "12s", "12s", "38s"]
+    assert pipe.calls == [4, 1]  # short clips batched by 4, long clips in a batch of 1
 
 
 def test_whisper_reraises_other_errors_and_oom_at_batch_one():
