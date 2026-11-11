@@ -1,0 +1,19 @@
+{
+  "model": "omniASR_CTC_1B_v2",
+  "dataset": "sukuma-speech-corpus",
+  "clips": 400,
+  "audio_hours": 1.9788977777777779,
+  "seconds": 47.88122230199997,
+  "strict": {
+    "wer": 0.9277541245343268,
+    "cer": 0.2795050595082053
+  },
+  "normalized": {
+    "wer": 0.8917265230114392,
+    "cer": 0.264140572360722
+  },
+  "diacritic_blind": {
+    "wer": 0.7696195796754456,
+    "cer": 0.1977375084222845
+  }
+}

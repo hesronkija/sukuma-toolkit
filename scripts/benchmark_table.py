@@ -36,7 +36,9 @@ def collect(report_dir: Path) -> list[dict]:
         key = (r["model"], r["dataset"])
         if key not in best or r["clips"] > best[key]["clips"]:
             best[key] = r
-    return sorted(best.values(), key=lambda r: (r["dataset"] != "sukuma-voices-acl", r["model"]))
+    order = ["omniASR_CTC_300M_v2", "omniASR_CTC_1B_v2", "omniASR_LLM_7B_v2", "sartifyllc/sukuma-voices-asr"]
+    rank = {m: i for i, m in enumerate(order)}
+    return sorted(best.values(), key=lambda r: (r["dataset"] != "sukuma-voices-acl", rank.get(r["model"], 99), r["model"]))
 
 
 def format_table(results: list[dict]) -> str:
@@ -62,6 +64,7 @@ def format_table(results: list[dict]) -> str:
 
 
 def plot(results: list[dict], path: Path) -> None:
+    """Two panels: word error rate and character error rate, per test set and model."""
     import matplotlib
 
     matplotlib.use("Agg")
@@ -69,29 +72,37 @@ def plot(results: list[dict], path: Path) -> None:
 
     datasets = [d for d in DATASET_NAMES if any(r["dataset"] == d for r in results)]
     models = list(dict.fromkeys(r["model"] for r in results))
-    fig, ax = plt.subplots(figsize=(7.5, 3.8), dpi=150)
-    width = min(0.45, 0.8 / max(1, len(models)))
     colors = ["#2a6f97", "#61a5c2", "#c97c5d", "#8a5a83", "#6a994e"]
-    for i, m in enumerate(models):
-        xs, ys = [], []
-        for j, d in enumerate(datasets):
-            r = next((r for r in results if r["model"] == m and r["dataset"] == d), None)
-            if r:
-                xs.append(j + (i - (len(models) - 1) / 2) * width)
-                ys.append(r["normalized"]["wer"] * 100)
-        bars = ax.bar(xs, ys, width * 0.92, label=model_label(m), color=colors[i % len(colors)])
-        ax.bar_label(bars, fmt="%.0f%%", fontsize=8, padding=2)
-    if "sukuma-voices-acl" in datasets:
-        j = datasets.index("sukuma-voices-acl")
-        ax.hlines(PAPER_WER * 100, j - 0.35, j + 0.35, colors="#333333", linestyles="--", linewidth=1)
-        ax.text(j + 0.37, PAPER_WER * 100, "paper\n25%", va="center", fontsize=8, color="#333333")
-    ax.set_xticks(range(len(datasets)), [DATASET_NAMES[d] for d in datasets])
-    ax.set_ylabel("Word error rate (%)")
-    ax.set_ylim(0, 105)
-    ax.spines[["top", "right"]].set_visible(False)
-    ax.legend(frameon=False, fontsize=8, loc="lower left", bbox_to_anchor=(0, 1.0), ncol=len(models))
-    fig.suptitle("Sukuma speech recognition: word error rate, lower is better", fontsize=10, x=0.02, ha="left")
-    fig.tight_layout()
+    width = min(0.45, 0.8 / max(1, len(models)))
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4.2), dpi=150)
+    for ax, metric, label in ((axes[0], "wer", "Word error rate (%)"), (axes[1], "cer", "Character error rate (%)")):
+        for i, m in enumerate(models):
+            xs, ys = [], []
+            for j, d in enumerate(datasets):
+                r = next((r for r in results if r["model"] == m and r["dataset"] == d), None)
+                if r:
+                    xs.append(j + (i - (len(models) - 1) / 2) * width)
+                    ys.append(r["normalized"][metric] * 100)
+            bars = ax.bar(xs, ys, width * 0.92, label=model_label(m), color=colors[i % len(colors)])
+            ax.bar_label(bars, fmt="%.0f%%" if metric == "wer" else "%.1f%%", fontsize=7, padding=2)
+        if metric == "wer" and "sukuma-voices-acl" in datasets:
+            j = datasets.index("sukuma-voices-acl")
+            ax.hlines(PAPER_WER * 100, j - 0.4, j + 0.4, colors="#333333", linestyles="--", linewidth=1)
+            ax.text(j, PAPER_WER * 100 + 2, "paper: 25%", ha="center", fontsize=7, color="#333333")
+        if metric == "cer" and "sukuma-voices-acl" in datasets:
+            j = datasets.index("sukuma-voices-acl")
+            ax.hlines(2.0, j - 0.4, j + 0.4, colors="#333333", linestyles=":", linewidth=1)
+            ax.text(j - 0.4, 3.0, "Meta's claim: 2%", fontsize=7, color="#333333")
+        ax.set_xticks(range(len(datasets)), [DATASET_NAMES[d] for d in datasets], fontsize=8)
+        ax.set_ylabel(label, fontsize=9)
+        ax.set_ylim(0, 105 if metric == "wer" else 32)
+        ax.spines[["top", "right"]].set_visible(False)
+    handles, labels = axes[0].get_legend_handles_labels()
+    fig.legend(handles, labels, frameon=False, fontsize=8, loc="upper center", ncol=len(models),
+               bbox_to_anchor=(0.5, 0.93))
+    fig.suptitle("Sukuma speech recognition (lowercase, no punctuation; lower is better)", fontsize=10,
+                 x=0.02, ha="left")
+    fig.tight_layout(rect=(0, 0, 1, 0.88))
     fig.savefig(path)
     plt.close(fig)
 
