@@ -6,6 +6,7 @@
     echo "U Yesu ubawila" | sukuma restore
     sukuma stats sentences.csv                   # corpus report (Markdown)
     sukuma score refs.txt hyps.txt               # WER / CER at three levels
+    sukuma translate --model models/nllb-suk-swh sukuma.txt   # Sukuma -> Swahili (needs a trained model)
 
 Files are read one sentence per line (``-`` or no file means standard input).
 A .csv with a ``suk`` column or a .tsv with a ``text`` column also works.
@@ -83,6 +84,20 @@ def cmd_score(args) -> int:
     return 0
 
 
+def cmd_translate(args) -> int:
+    try:
+        from sukuma_toolkit.translate import Translator
+        translator = Translator(args.model, num_beams=args.beams)
+    except ImportError:
+        raise SystemExit('sukuma: translation needs extra packages: pip install "sukuma-toolkit[translate]"')
+    except (ValueError, OSError) as e:
+        raise SystemExit(f"sukuma: {e}. Train a model with scripts/train_translator.py, then pass --model")
+    lines = read_lines(args.file)
+    for line, out in zip(lines, translator.translate([x for x in lines])):
+        print(out if line.strip() else "")
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="sukuma", description="Text tools for the Sukuma language.")
     ap.add_argument("--version", action="version", version=f"sukuma-toolkit {__version__}")
@@ -107,6 +122,12 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("references")
     p.add_argument("hypotheses")
     p.set_defaults(func=cmd_score)
+
+    p = sub.add_parser("translate", help="translate Sukuma to Swahili with a fine-tuned model")
+    p.add_argument("file", nargs="?")
+    p.add_argument("--model", help="model directory from scripts/train_translator.py (default: $SUKUMA_MT_MODEL)")
+    p.add_argument("--beams", type=int, default=4, help="beam size (1 is fastest)")
+    p.set_defaults(func=cmd_translate)
     return ap
 
 

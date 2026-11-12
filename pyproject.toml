@@ -39,6 +39,8 @@ omnilingual = ["omnilingual-asr>=0.2", "torch==2.8.0", "torchaudio==2.8.0", "pya
                "soundfile>=0.12", "scipy", "huggingface_hub>=0.20"]
 audit = ["fasttext-numpy2-wheel", "huggingface_hub>=0.20"]
 tokentax = ["transformers>=4.45,<5", "sentencepiece>=0.2", "matplotlib>=3.7"]
+translate = ["torch", "transformers>=4.45,<5", "sentencepiece>=0.2", "sacrebleu>=2.4", "accelerate",
+             "africa-bitext-builder>=0.1.13", "huggingface_hub>=0.20"]
 whisper = ["transformers>=4.45,<5", "accelerate", "soundfile>=0.12", "scipy", "pyarrow", "huggingface_hub>=0.20"]
 
 [project.scripts]

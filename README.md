@@ -66,6 +66,24 @@ Bible-style text, train one with `scripts/train_restorer.py` and pass
 `sukuma score` reports all three levels because Sukuma has two written forms:
 the gap between the last two lines is the error caused by diacritics alone.
 
+## Translation (Sukuma -> Swahili, experimental)
+
+NLLB-200 translates Swahili but has no Sukuma. `scripts/train_translator.py`
+adds a `suk_Latn` language token and fine-tunes NLLB-600M on about 84,000
+Sukuma-Swahili Bible verse pairs; `scripts/eval_translator.py` scores it with
+chrF++ and BLEU on held-out Bible books and on the (non-Bible) UDHR, against
+two baselines. Run it on a GPU with
+[`notebooks/colab_translation.ipynb`](notebooks/colab_translation.ipynb), then:
+
+```bash
+pip install -e ".[translate]"
+echo "Banhu bose bakabyalagwa na wiyabi." | sukuma translate --model models/nllb-suk-swh
+```
+
+Every Sukuma and Swahili Bible available is copyrighted, so the training data
+and the trained model are for research use only: they live under `data/raw/`
+and `models/` (both gitignored) and are not published.
+
 ## Data
 
 Every public Sukuma source found (16 data sources, plus 6 models) is listed
